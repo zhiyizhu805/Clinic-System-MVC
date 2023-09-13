@@ -1,10 +1,9 @@
 import tkinter as tk
-from Models.Clinic import Clinic
 from Controllers.medical_center_controller import MedicalCenterAppController
+from Controllers.medical_center_controller import Clinic
 
 def main():
     clinic = Clinic()
-
     # Load data from files
     with open("Data/Doctor.txt", "r") as file:
         for line in file:

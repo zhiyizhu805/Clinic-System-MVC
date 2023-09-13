@@ -1,10 +1,55 @@
 import tkinter as tk
 from tkinter import messagebox
-from Models.Clinic import Clinic
 from Models.Doctor import Doctor
 from Models.Patient import Patient
 from Models.Consultation import Consultation
 from Views.medical_center_view import MedicalCenterAppView
+
+class Clinic:
+    def __init__(self):
+        self.__myDoctors = []
+        self.__myPatients = []
+        self.__myConsultations = []
+        
+    @property
+    def myDoctors(self):
+        return self.__myDoctors
+    
+    @property
+    def myPatients(self):
+        return self.__myPatients
+    
+    @property
+    def myConsultations(self):
+        return self.__myConsultations
+    
+
+    def create_doctor(self, first_name, last_name, specialisation):
+        # create doctor instance
+        doctor = Doctor(first_name, last_name, specialisation)
+        self.__myDoctors.append(doctor)
+        return doctor
+
+    def create_patient(self, first_name, last_name):
+        # create patient instance
+        patient = Patient(first_name, last_name)
+        self.__myPatients.append(patient)
+        return patient
+
+    def add_consultation(self, doctor, patient, date, reason, fee):
+        # create consultation instance
+        consultation = Consultation(doctor, patient, date, reason, fee)
+        self.__myConsultations.append(consultation)
+        return consultation
+
+    def get_consultation_report(self):
+        report = "Consultation Report for XYZ Medical Center\n"
+        total_fee = 0
+        for cons in self.__myConsultations:
+            report += f"\n{cons.Patient} {cons.Date} {cons.Reason} ${cons.Fee}\n"
+            total_fee += float(cons.Fee)
+        report += f"\nTotal Fees: ${total_fee}\n"
+        return report
 
 class MedicalCenterAppController:
     def __init__(self, master, clinic):
@@ -36,16 +81,16 @@ class MedicalCenterAppController:
         selected_patient_index = self.view.patient_listbox.curselection()
 
         if not selected_doctor_index or not selected_patient_index:
-            messagebox.showerror("Error", "Please select both a doctor and a patient!")
+            messagebox.showerror("Error", "❗️ Please select both a doctor and a patient!")
             return
 
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
         patient = self.clinic.myPatients[selected_patient_index[0]]
         assign_patient_to_doctor = patient.assign_doctor(doctor)
         if assign_patient_to_doctor == 1:
-          messagebox.showinfo("Success", f"Doctor {doctor} assigned to patient {patient}!")
+          messagebox.showinfo("Success", f"✅ Doctor {doctor} has been assigned to patient {patient}!")
         else:
-          messagebox.showinfo("Failure", f"Doctor {doctor} cannot be double-assigned to patient {patient}!")
+          messagebox.showinfo("error", f"❗️ Doctor {doctor} cannot be double-assigned to patient {patient}!")
 
     def add_consultation(self):
         date = self.view.date_entry.get()
@@ -53,14 +98,14 @@ class MedicalCenterAppController:
         fee = self.view.fee_entry.get()
 
         if not date or not reason or not fee:
-            messagebox.showerror("Error", "Please fill in all consultation details!")
+            messagebox.showerror("Error", "❗️ Please fill in all consultation details!")
             return
 
         selected_doctor_index = self.view.doctor_listbox.curselection()
         selected_patient_index = self.view.patient_listbox.curselection()
 
         if not selected_doctor_index or not selected_patient_index:
-            messagebox.showerror("Error", "Please select both a doctor and a patient!")
+            messagebox.showerror("Error", "❗️ Please select both a doctor and a patient!")
             return
 
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
@@ -68,16 +113,16 @@ class MedicalCenterAppController:
         
         if doctor in patient.MyDoctor:
             consultation = self.clinic.add_consultation(doctor, patient, date, reason, fee)
-            messagebox.showinfo("Success", f"Consultation added for doctor {doctor} and patient {patient} on {date}!")
+            messagebox.showinfo("Success", f"✅  Consultation with Doctor {doctor} has been made to patient {patient} on {date}!")
         else:
-            messagebox.showinfo("error", f"Assign {doctor} to {patient} first!")
+            messagebox.showinfo("error", f"❗️Please assign {doctor} to {patient} first!")
             
         
 
     def show_doctor_info(self):
         selected_doctor_index = self.view.doctor_listbox.curselection()
         if not selected_doctor_index:
-            messagebox.showerror("Error", "Please select a doctor!")
+            messagebox.showerror("Error", "❗️ Please select a doctor!")
             return
         
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
@@ -87,7 +132,7 @@ class MedicalCenterAppController:
     def show_patient_info(self):
         selected_patient_index = self.view.patient_listbox.curselection()
         if not selected_patient_index:
-            messagebox.showerror("Error", "Please select a patient!")
+            messagebox.showerror("Error", "❗️ Please select a patient!")
             return
         
         patient = self.clinic.myPatients[selected_patient_index[0]]
@@ -108,24 +153,24 @@ class MedicalCenterAppController:
         btn_close = tk.Button(info_window, text="Close", command=info_window.destroy)
         btn_close.pack(pady=10)
 
-# main function to run the app
-def main():
-    clinic = Clinic()  
+# # main function to run the app
+# def main():
+#     clinic = Clinic()  
 
-    # Load data from files
-    with open("/datas/Doctor.txt", "r") as file:
-        for line in file:
-            first_name, last_name, specialty = line.strip().split(",")
-            clinic.create_doctor(first_name, last_name, specialty)
+#     # Load data from files
+#     with open("/datas/Doctor.txt", "r") as file:
+#         for line in file:
+#             first_name, last_name, specialty = line.strip().split(",")
+#             clinic.create_doctor(first_name, last_name, specialty)
 
-    with open("Patient.txt", "r") as file:
-        for line in file:
-            first_name, last_name = line.strip().split(",")
-            clinic.create_patient(first_name, last_name)
+#     with open("Patient.txt", "r") as file:
+#         for line in file:
+#             first_name, last_name = line.strip().split(",")
+#             clinic.create_patient(first_name, last_name)
 
-    root = tk.Tk()
-    app = MedicalCenterAppController(root, clinic)
-    root.mainloop()
+#     root = tk.Tk()
+#     app = MedicalCenterAppController(root, clinic)
+#     root.mainloop()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

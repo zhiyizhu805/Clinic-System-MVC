@@ -1,5 +1,8 @@
 import tkinter as tk
 import tkinter.messagebox as messagebox
+from tkcalendar import Calendar
+
+
 
 class MedicalCenterAppView:
     def __init__(self, master):
@@ -22,11 +25,10 @@ class MedicalCenterAppView:
         self.doctor_listbox = tk.Listbox(self.listbox_frame, width=40, height=10, exportselection=False)
         self.doctor_listbox.grid(row=1, column=0, padx=10)
 
-
         # Consultation Frame with border
         self.cons_frame = tk.LabelFrame(self.master, text="Consultation Details", padx=10, pady=10)
         self.cons_frame.pack(pady=20, fill="x")
-        
+
 
         # Date Entry with validation
         self.date_label = tk.Label(self.cons_frame, text="Date")
@@ -77,6 +79,6 @@ class MedicalCenterAppView:
         if re.match(r'(\d{1,2}/?)?(\d{1,2}/?)?(\d{0,4})?$', date_str) or not date_str:
             return True
         else:
-            messagebox.showwarning("Invalid Date", "Please enter date in dd/mm/yyyy format")
+            messagebox.showwarning("Invalid Date", "❗️ Please enter date in dd/mm/yyyy format")
             return False
 
