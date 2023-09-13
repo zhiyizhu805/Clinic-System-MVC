@@ -66,7 +66,7 @@ class MedicalCenterAppController:
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
         patient = self.clinic.myPatients[selected_patient_index[0]]
         
-        if doctor in patient.myDoctor:
+        if doctor in patient.MyDoctor:
             consultation = self.clinic.add_consultation(doctor, patient, date, reason, fee)
             messagebox.showinfo("Success", f"Consultation added for doctor {doctor} and patient {patient} on {date}!")
         else:
