@@ -152,8 +152,8 @@ class Clinic:
         report = "Consultation Report for XYZ Medical Center\n"
         total_fee = 0
         for cons in self.myConsultations:
-            report += f"{cons.Patient} {cons.Date} {cons.Reason} {cons.Fee}\n"
+            report += f"\n{cons.Patient} {cons.Date} {cons.Reason} {cons.Fee}\n"
             total_fee += float(cons.Fee)
-        report += f"Total Fees: ${total_fee}\n"
+        report += f"\nTotal Fees: ${total_fee}\n"
         return report
 
