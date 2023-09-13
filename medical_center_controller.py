@@ -2,7 +2,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from medical_center_model import Clinic, Doctor, Patient, Consultation
-from medical_center_view import ImprovedMedicalCenterAppViewV2 as MedicalCenterAppView
+# from medical_center_view import MedicalCenterAppView as MedicalCenterAppView
+from medical_center_view import MedicalCenterAppView
 
 class MedicalCenterAppController:
     def __init__(self, master, clinic):

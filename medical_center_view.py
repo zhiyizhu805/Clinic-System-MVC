@@ -1,7 +1,7 @@
 import tkinter as tk
 import tkinter.messagebox as messagebox
 
-class ImprovedMedicalCenterAppViewV2:
+class MedicalCenterAppView:
     def __init__(self, master):
         self.master = master
         self.master.title("Medical Center Application")
@@ -15,12 +15,17 @@ class ImprovedMedicalCenterAppViewV2:
         self.doctor_label.grid(row=0, column=0, padx=10)
         self.doctor_listbox = tk.Listbox(self.listbox_frame, width=40, height=10)
         self.doctor_listbox.grid(row=1, column=0, padx=10)
+        self.doctor_listbox.bind('<<ListboxSelect>>', self.deselect_patient_listbox)
+
+        
 
         # Label and Listbox for patients (side by side with doctor listbox)
         self.patient_label = tk.Label(self.listbox_frame, text="All Patients")
         self.patient_label.grid(row=0, column=1, padx=10)
         self.patient_listbox = tk.Listbox(self.listbox_frame, width=40, height=10)
         self.patient_listbox.grid(row=1, column=1, padx=10)
+        self.patient_listbox.bind('<<ListboxSelect>>', self.deselect_doctor_listbox)
+
 
         # Consultation Frame
         self.cons_frame = tk.Frame(self.master)
@@ -60,6 +65,13 @@ class ImprovedMedicalCenterAppViewV2:
 
         self.btn_show_consultation_report = tk.Button(self.master, text="Consultation Report")
         self.btn_show_consultation_report.pack(pady=10)
+        
+    def deselect_patient_listbox(self, event=None):
+        self.patient_listbox.selection_clear(0, tk.END)
+
+    def deselect_doctor_listbox(self, event=None):
+        self.doctor_listbox.selection_clear(0, tk.END)
+
 
     def validate_date(self, date_str):
         import re
