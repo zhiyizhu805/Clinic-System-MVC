@@ -1,7 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
-from medical_center_model import Clinic, Doctor, Patient, Consultation
-from medical_center_view import MedicalCenterAppView
+from Models.Clinic import Clinic
+from Models.Doctor import Doctor
+from Models.Patient import Patient
+from Models.Consultation import Consultation
+from Views.medical_center_view import MedicalCenterAppView
 
 class MedicalCenterAppController:
     def __init__(self, master, clinic):
@@ -110,7 +113,7 @@ def main():
     clinic = Clinic()  
 
     # Load data from files
-    with open("Doctor.txt", "r") as file:
+    with open("/datas/Doctor.txt", "r") as file:
         for line in file:
             first_name, last_name, specialty = line.strip().split(",")
             clinic.create_doctor(first_name, last_name, specialty)
