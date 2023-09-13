@@ -1,15 +1,26 @@
 
 class Doctor:
+    nextID = 1000
     def __init__(self, first_name, last_name, specialisation):
+        self.doctor_ID = Doctor.nextID
         self.first_name = first_name
         self.last_name = last_name
         self.specialisation = specialisation
         self.myPatients = []
         self.myDoctorCons = []
+        Doctor.nextID += 1
+ 
+    @property
+    def fname(self):
+        return self.first_name
         
-    # @property
-    # def first_name(self):
-    #     return self.first_name
+    @property
+    def lname(self):
+        return self.last_name
+         
+    @property
+    def Doctor_ID(self):
+        return self.doctor_ID
     
      
     def add_patient(self, patient):
@@ -26,28 +37,32 @@ class Doctor:
         return f"{self.first_name} {self.last_name}, {self.specialisation}"
 
     def get_info(self):
-        info = f"{self.first_name} {self.last_name} - {self.specialisation}\n"
-        info += "Patients List:\n"
+        info = f"{self.doctor_ID} {self.first_name} {self.last_name} - {self.specialisation}\n"
+        info += "\nPatients List:\n"
         for patient in self.myPatients:
-            info += f"{patient}\n"
-        info += "Consultations:\n"
+            info += f"{patient.Patient_ID} {patient}\n"
+        info += "\nConsultations:\n"
         for cons in self.myDoctorCons:
             info += f"{cons}\n"
         return info
     def __eq__(self, other):
-        return self.first_name == other.first_name
+        return self.doctor_ID == other.Doctor_ID
 
 class Patient:
-    nextID = 1
+    nextID = 200
 
     def __init__(self, first_name, last_name):
         self.myPatientID = Patient.nextID
-        Patient.nextID += 1
         self.myPatientFName = first_name
         self.myPatientLName = last_name
         self.myDoctor = []
         self.consultations = []
-
+        Patient.nextID += 1
+        
+    @property
+    def Patient_ID(self):
+        return self.myPatientID
+        
     def assign_doctor(self, doctor):
         if doctor not in self.myDoctor:
             self.myDoctor.append(doctor) 
@@ -62,31 +77,55 @@ class Patient:
         return f"{self.myPatientFName} {self.myPatientLName}"
 
     def get_info(self):
-        info = f"{self.myPatientFName} {self.myPatientLName}\n"
-        info += f"Doctor: {self.myDoctor}\n"
-        info += "Consultations:\n"
+        info = f"{self.myPatientID} {self.myPatientFName} {self.myPatientLName}\n"
+        info += '\nDoctor List:\n'
+        for doctor in self.myDoctor: 
+          info += f"{doctor.Doctor_ID} {doctor}\n"
+        info += "\nConsultations:\n"
         total_fee = 0
         for cons in self.consultations:
-            info += f"{cons}\n"
-            total_fee += float(cons.fee)
-        info += f"Total Fees Due: ${total_fee}\n"
+            info += f"{cons.Doctor} {cons.Date} {cons.Fee}\n"
+            total_fee += float(cons.Fee)
+        info += f"\nTotal Fees Due: ${total_fee}\n"
         return info
+
     
     def __eq__(self, other):
-        return self.first_name == other.first_name
+        return self.myPatientID == other.Patient_ID
 
 class Consultation:
     def __init__(self, doctor, patient, date, reason, fee):
-        self.doctor = doctor
-        self.patient = patient
-        self.date = date
-        self.reason = reason
-        self.fee = fee
+        self.__doctor = doctor
+        self.__patient = patient
+        self.__date = date
+        self.__reason = reason
+        self.__fee = fee
         doctor.add_consultation(self)
         patient.add_consultation(self)
+        
+    @property
+    def Doctor(self):
+        return self.__doctor
+    
+    @property
+    def Patient(self):
+        return self.__patient
+    
+    @property
+    def Date(self):
+        return self.__date
+    
+    @property
+    def Reason(self):
+        return self.__reason
+    
+    @property
+    def Fee(self):
+        return self.__fee
+        
 
     def __str__(self):
-        return f"{self.date} {self.reason} {self.patient} ${self.fee}"
+        return f"{self.__date} {self.__reason} {self.__patient} ${self.__fee}"
 
 class Clinic:
     def __init__(self):
@@ -113,7 +152,8 @@ class Clinic:
         report = "Consultation Report for XYZ Medical Center\n"
         total_fee = 0
         for cons in self.myConsultations:
-            report += f"{cons}\n"
-            total_fee += float(cons.fee)
+            report += f"{cons.Patient} {cons.Date} {cons.Reason} {cons.Fee}\n"
+            total_fee += float(cons.Fee)
         report += f"Total Fees: ${total_fee}\n"
         return report
+

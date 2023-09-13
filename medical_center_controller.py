@@ -62,9 +62,14 @@ class MedicalCenterAppController:
 
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
         patient = self.clinic.myPatients[selected_patient_index[0]]
-
-        consultation = self.clinic.add_consultation(doctor, patient, date, reason, fee)
-        messagebox.showinfo("Success", f"Consultation added for doctor {doctor} and patient {patient} on {date}!")
+        
+        if doctor in patient.myDoctor:
+            consultation = self.clinic.add_consultation(doctor, patient, date, reason, fee)
+            messagebox.showinfo("Success", f"Consultation added for doctor {doctor} and patient {patient} on {date}!")
+        else:
+            messagebox.showinfo("error", f"Assign {doctor} to {patient} first!")
+            
+        
 
     def show_doctor_info(self):
         selected_doctor_index = self.view.doctor_listbox.curselection()
@@ -102,7 +107,7 @@ class MedicalCenterAppController:
 
 # main function to run the app
 def main():
-    clinic = Clinic()
+    clinic = Clinic()  
 
     # Load data from files
     with open("Doctor.txt", "r") as file:
