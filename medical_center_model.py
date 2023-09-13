@@ -6,12 +6,21 @@ class Doctor:
         self.specialisation = specialisation
         self.myPatients = []
         self.myDoctorCons = []
-
+        
+    # @property
+    # def first_name(self):
+    #     return self.first_name
+    
+     
     def add_patient(self, patient):
-        self.myPatients.append(patient)
+        # if patient not in self.myPatients:
+          self.myPatients.append(patient)
+        #   return 1
+        # return 0
 
     def add_consultation(self, consultation):
         self.myDoctorCons.append(consultation)
+
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}, {self.specialisation}"
@@ -25,6 +34,8 @@ class Doctor:
         for cons in self.myDoctorCons:
             info += f"{cons}\n"
         return info
+    def __eq__(self, other):
+        return self.first_name == other.first_name
 
 class Patient:
     nextID = 1
@@ -34,12 +45,15 @@ class Patient:
         Patient.nextID += 1
         self.myPatientFName = first_name
         self.myPatientLName = last_name
-        self.myDoctor = None
+        self.myDoctor = []
         self.consultations = []
 
     def assign_doctor(self, doctor):
-        self.myDoctor = doctor
-        doctor.add_patient(self)
+        if doctor not in self.myDoctor:
+            self.myDoctor.append(doctor) 
+            doctor.add_patient(self)
+            return 1
+        return 0
 
     def add_consultation(self, consultation):
         self.consultations.append(consultation)
@@ -57,6 +71,9 @@ class Patient:
             total_fee += float(cons.fee)
         info += f"Total Fees Due: ${total_fee}\n"
         return info
+    
+    def __eq__(self, other):
+        return self.first_name == other.first_name
 
 class Consultation:
     def __init__(self, doctor, patient, date, reason, fee):

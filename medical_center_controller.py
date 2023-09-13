@@ -38,8 +38,11 @@ class MedicalCenterAppController:
 
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
         patient = self.clinic.myPatients[selected_patient_index[0]]
-        patient.assign_doctor(doctor)
-        messagebox.showinfo("Success", f"Doctor {doctor} assigned to patient {patient}!")
+        assign_patient_to_doctor = patient.assign_doctor(doctor)
+        if assign_patient_to_doctor == 1:
+          messagebox.showinfo("Success", f"Doctor {doctor} assigned to patient {patient}!")
+        else:
+          messagebox.showinfo("Failure", f"Doctor {doctor} cannot be double-assigned to patient {patient}!")
 
     def add_consultation(self):
         date = self.view.date_entry.get()
