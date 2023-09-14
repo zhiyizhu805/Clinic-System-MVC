@@ -1,6 +1,5 @@
 import tkinter as tk
 import tkinter.messagebox as messagebox
-from tkcalendar import Calendar
 
 class MedicalCenterAppView:
     def __init__(self, master):
@@ -78,7 +77,7 @@ class MedicalCenterAppView:
         if re.match(r'^(0?[1-9]|[12][0-9]|3[01])?(/(0?[1-9]|1[0-2])?(/(\d{1,4})?)?)?$', date_str) or not date_str:
             return True
         else:
-            messagebox.showwarning("❗️ Please enter a valid date in dd/mm/yyyy format")
+            messagebox.showwarning("Invalid date","❗️ Please enter a valid date in dd/mm/yyyy format")
             return False
 
 
@@ -91,9 +90,6 @@ class MedicalCenterAppView:
         else:
             messagebox.showwarning("Invalid Fee", "❗️ Please enter a valid fee (e.g., 100 or 100.50).")
             return False
-    # def display_message_box(self,type_of_messag):
+    
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = MedicalCenterAppView(root)
-    root.mainloop()
+

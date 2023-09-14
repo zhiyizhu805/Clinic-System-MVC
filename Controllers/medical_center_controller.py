@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+import tkinter.messagebox as messagebox
 from Models.Doctor import Doctor
 from Models.Patient import Patient
 from Models.Consultation import Consultation
@@ -10,6 +10,9 @@ class Clinic:
         self.__myDoctors = []
         self.__myPatients = []
         self.__myConsultations = []
+        self.__filteredDoctors = []
+        self.__filteredPatients = []
+        
         
     @property
     def myDoctors(self):
@@ -50,14 +53,33 @@ class Clinic:
             total_fee += float(cons.Fee)
         report += f"\nTotal Fees: ${total_fee}\n"
         return report
+    
+    def searchDoctors(self,userInput):
+        for doctor in self.__myDoctors:
+            if userInput in f'{doctor.fname} {doctor.lname}':
+                print('userInput:',userInput,'| filtered doctors:',doctor)
+                self.__filteredDoctors.append(doctor) 
+        print(self.__filteredDoctors)
+        # update doctor list
+        self.__myDoctors = self.__filteredDoctors
+                
+    def searchPatients(self,userInput):
+        for patient in self.__myPatients:
+            if userInput in f'{patient.PatientFName} {patient.PatientLName}':
+                print('userInput',userInput,'| filtered patients',patient)
+                self.__filteredPatients.append(patient)
+        print(self.__filteredPatients)
+        # update patient list
+        self.__myPatients = self.__filteredPatients
+                
+        
+        
+
 
 class MedicalCenterAppController:
     def __init__(self, master):
         self.view = MedicalCenterAppView(master)
         self.clinic = Clinic()
-        self.__myDoctors = []
-        self.__myPatients = []
-        self.__myConsultations = []
         # Load data from files
         with open("Data/Doctor.txt", "r") as file:
             for line in file:
@@ -78,7 +100,9 @@ class MedicalCenterAppController:
 
         self.update_doctor_list()
         self.update_patient_list()
-        
+
+        # self.clinic.searchDoctors('')
+        # self.clinic.searchPatients('a')
         
 
     def update_doctor_list(self):
@@ -103,9 +127,9 @@ class MedicalCenterAppController:
         patient = self.clinic.myPatients[selected_patient_index[0]]
         assign_patient_to_doctor = patient.assign_doctor(doctor)
         if assign_patient_to_doctor == 1:
-          messagebox.showinfo("Success", f"✅ Doctor {doctor} has been assigned to patient {patient}!")
+          messagebox.showinfo("Success",f"✅ Doctor {doctor} has been assigned to patient {patient}!")
         else:
-          messagebox.showinfo("Error", f"❗️ Doctor {doctor} cannot be double-assigned to patient {patient}!")
+          messagebox.showerror("Error", f"❌ Doctor {doctor} cannot be double-assigned to patient {patient}!")
 
     def add_consultation(self):
         date = self.view.date_entry.get()
@@ -124,7 +148,7 @@ class MedicalCenterAppController:
         selected_patient_index = self.view.patient_listbox.curselection()
 
         if not selected_doctor_index or not selected_patient_index:
-            messagebox.showerror("Error", "❗️ Please select both a doctor and a patient!")
+            messagebox.showwarning("warning", "❗️ Please select both a doctor and a patient!")
             return
 
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
@@ -134,7 +158,7 @@ class MedicalCenterAppController:
             consultation = self.clinic.add_consultation(doctor, patient, date, reason, fee)
             messagebox.showinfo("Success", f"✅  Consultation with Doctor {doctor} has been made to patient {patient} on {date}!")
         else:
-            messagebox.showinfo("Error", f"❗️Please assign {doctor} to {patient} first!")
+            messagebox.showerror("Error", f"❗️ Please assign {doctor} to {patient} first!")
             
         
 
@@ -146,7 +170,7 @@ class MedicalCenterAppController:
         
         doctor = self.clinic.myDoctors[selected_doctor_index[0]]
         info = doctor.get_info()
-        self.show_info("Doctor Information", info)
+        self.show_info("👨🏼‍⚕️ Doctor Information", info)
 
     def show_patient_info(self):
         selected_patient_index = self.view.patient_listbox.curselection()
