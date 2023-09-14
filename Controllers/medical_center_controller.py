@@ -95,8 +95,7 @@ class MedicalCenterAppController:
         selected_doctor_index = self.view.doctor_listbox.curselection()
         selected_patient_index = self.view.patient_listbox.curselection()
 
-        if not selected_doctor_index or not selected_patient_index:
-            tkinter.messagebox.showwarning(title=None, message=None, **options) 
+        if not selected_doctor_index or not selected_patient_index: 
             messagebox.showerror("Error", "❗️ Please select both a doctor and a patient!")
             return
 
@@ -116,7 +115,11 @@ class MedicalCenterAppController:
         if not date or not reason or not fee:
             messagebox.showerror("Error", "❗️ Please fill in all consultation details!")
             return
-
+        if not self.view.validate_date(date) :
+            return 
+        if not self.view.validate_fee(fee):
+            return
+            
         selected_doctor_index = self.view.doctor_listbox.curselection()
         selected_patient_index = self.view.patient_listbox.curselection()
 
