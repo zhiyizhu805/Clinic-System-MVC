@@ -54,24 +54,44 @@ class Clinic:
         report += f"\nTotal Fees: ${total_fee}\n"
         return report
     
+    # def searchDoctors(self,userInput):
+    #     for doctor in self.__myDoctors:
+    #         if userInput in f'{doctor.fname} {doctor.lname}':
+    #             print('userInput:',userInput,'| filtered doctors:',doctor)
+    #             self.__filteredDoctors.append(doctor) 
+    #     print(self.__filteredDoctors)
+    #     # update doctor list
+    #     self.__myDoctors = self.__filteredDoctors
+                
+    # def searchPatients(self,userInput):
+    #     for patient in self.__myPatients:
+    #         if userInput in f'{patient.PatientFName} {patient.PatientLName}':
+    #             print('userInput',userInput,'| filtered patients',patient)
+    #             self.__filteredPatients.append(patient)
+    #     print(self.__filteredPatients)
+    #     # update patient list
+    #     self.__myPatients = self.__filteredPatients
     def searchDoctors(self,userInput):
+        self.__filteredDoctors.clear()  # Clear the filtered list before each search
         for doctor in self.__myDoctors:
             if userInput in f'{doctor.fname} {doctor.lname}':
                 print('userInput:',userInput,'| filtered doctors:',doctor)
                 self.__filteredDoctors.append(doctor) 
         print(self.__filteredDoctors)
-        # update doctor list
-        self.__myDoctors = self.__filteredDoctors
-                
+        # update doctor list for display, but keep the original list intact
+        self.__myDoctorsDisplay = self.__filteredDoctors if userInput else self.__myDoctors
+                    
     def searchPatients(self,userInput):
+        self.__filteredPatients.clear()  # Clear the filtered list before each search
         for patient in self.__myPatients:
             if userInput in f'{patient.PatientFName} {patient.PatientLName}':
                 print('userInput',userInput,'| filtered patients',patient)
                 self.__filteredPatients.append(patient)
         print(self.__filteredPatients)
-        # update patient list
-        self.__myPatients = self.__filteredPatients
-                
+        # update patient list for display, but keep the original list intact
+        self.__myPatientsDisplay = self.__filteredPatients if userInput else self.__myPatients
+
+                    
         
         
 
