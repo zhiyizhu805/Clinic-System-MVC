@@ -50,7 +50,7 @@ class Patient:
         info += "\nConsultations:\n"
         total_fee = 0
         for cons in self.__consultations:
-            info += f"{cons.Doctor} {cons.Date} {cons.Fee}\n"
+            info += f"{cons.Doctor} {cons.Date} ${cons.Fee}\n"
             total_fee += float(cons.Fee)
         info += f"\nTotal Fees Due: ${total_fee}\n"
         return info

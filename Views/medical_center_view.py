@@ -1,5 +1,7 @@
 import tkinter as tk
 import tkinter.messagebox as messagebox
+import datetime
+import re
 
 class MedicalCenterAppView:
     def __init__(self, master):
@@ -70,15 +72,24 @@ class MedicalCenterAppView:
         self.btn_show_consultation_report = tk.Button(self.info_frame, text="Consultation Report")
         self.btn_show_consultation_report.pack(side=tk.LEFT, padx=5)
 
+
+
     def validate_date(self, date_str):
         """Validate date format."""
-        import re
-        # Regex to validate complete and partial date formats
-        if re.match(r'^(0?[1-9]|[12][0-9]|3[01])?(/(0?[1-9]|1[0-2])?(/(\d{1,4})?)?)?$', date_str) or not date_str:
-            return True
+        # Regex to validate complete date format
+        if re.match(r'^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\d{4}$', date_str):
+            # Try to create a date object to check if the date is valid
+            try:
+                datetime.datetime.strptime(date_str, '%d/%m/%Y')
+                return True
+            except ValueError:
+                # If the creation of the date object fails, it's an invalid date
+                messagebox.showwarning("Invalid date","❗️ Please enter a valid date in dd/mm/yyyy format")
+                return False
         else:
             messagebox.showwarning("Invalid date","❗️ Please enter a valid date in dd/mm/yyyy format")
             return False
+
 
 
     def validate_fee(self, fee_str):

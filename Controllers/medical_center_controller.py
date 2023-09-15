@@ -14,6 +14,7 @@ class Clinic:
         self.__filteredPatients = []
         
         
+        
     @property
     def myDoctors(self):
         return self.__myDoctors
@@ -54,42 +55,40 @@ class Clinic:
         report += f"\nTotal Fees: ${total_fee}\n"
         return report
     
-    # def searchDoctors(self,userInput):
-    #     for doctor in self.__myDoctors:
-    #         if userInput in f'{doctor.fname} {doctor.lname}':
-    #             print('userInput:',userInput,'| filtered doctors:',doctor)
-    #             self.__filteredDoctors.append(doctor) 
-    #     print(self.__filteredDoctors)
-    #     # update doctor list
-    #     self.__myDoctors = self.__filteredDoctors
-                
-    # def searchPatients(self,userInput):
-    #     for patient in self.__myPatients:
-    #         if userInput in f'{patient.PatientFName} {patient.PatientLName}':
-    #             print('userInput',userInput,'| filtered patients',patient)
-    #             self.__filteredPatients.append(patient)
-    #     print(self.__filteredPatients)
-    #     # update patient list
-    #     self.__myPatients = self.__filteredPatients
-    def searchDoctors(self,userInput):
-        self.__filteredDoctors.clear()  # Clear the filtered list before each search
+ 
+    def searchDoctors(self, userInput):
+        """search doctor function: please call this function with doctor's name as variable"""
+        # Clear the filtered list before each search
+        self.__filteredDoctors.clear()  
+        
         for doctor in self.__myDoctors:
             if userInput in f'{doctor.fname} {doctor.lname}':
-                print('userInput:',userInput,'| filtered doctors:',doctor)
                 self.__filteredDoctors.append(doctor) 
-        print(self.__filteredDoctors)
-        # update doctor list for display, but keep the original list intact
-        self.__myDoctorsDisplay = self.__filteredDoctors if userInput else self.__myDoctors
-                    
-    def searchPatients(self,userInput):
-        self.__filteredPatients.clear()  # Clear the filtered list before each search
+        
+        # If there are any filtered doctors
+        if self.__filteredDoctors:
+            print(f'\n>>>>user input:{userInput}\n>>>>filterd doctors:')
+            return '\n'.join([f"{doc.fname} {doc.lname}" for doc in self.__filteredDoctors])
+        else:
+            print(f'\n>>>>user input:{userInput}')
+            return "No doctors found matching your criteria."
+
+    def searchPatients(self, userInput):
+        """search patients function: please call this function with patient's name as variable"""
+        # Clear the filtered list before each search
+        self.__filteredPatients.clear()  
+        
         for patient in self.__myPatients:
             if userInput in f'{patient.PatientFName} {patient.PatientLName}':
-                print('userInput',userInput,'| filtered patients',patient)
                 self.__filteredPatients.append(patient)
-        print(self.__filteredPatients)
-        # update patient list for display, but keep the original list intact
-        self.__myPatientsDisplay = self.__filteredPatients if userInput else self.__myPatients
+
+        # If there are any filtered patients
+        if self.__filteredPatients:
+            print(f'\n>>>>user input:{userInput}\n>>>>filterd patients:')
+            return '\n'.join([f"{pat.PatientFName} {pat.PatientLName}" for pat in self.__filteredPatients])
+        else:
+            print(f'\n>>>>user input:{userInput}')
+            return "No patients found matching your criteria."
 
                     
         
@@ -121,8 +120,10 @@ class MedicalCenterAppController:
         self.update_doctor_list()
         self.update_patient_list()
 
-        # self.clinic.searchDoctors('')
-        # self.clinic.searchPatients('a')
+        # test case:
+        # search doctor and patients
+        print(self.clinic.searchDoctors('laura vivi'))
+        print(self.clinic.searchPatients('Misha'))
         
 
     def update_doctor_list(self):
