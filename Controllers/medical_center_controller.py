@@ -66,7 +66,7 @@ class MedicalCenterAppController:
         return patient
 
     """ create consultation instance """
-    def add_consultation(self, doctor, patient, date, reason, fee):
+    def create_consultation(self, doctor, patient, date, reason, fee):
         consultation = Consultation(doctor, patient, date, reason, fee)
         self.__myConsultations.append(consultation)
         return consultation
@@ -196,7 +196,7 @@ class MedicalCenterAppController:
          
         # user input validation 
         if doctor in patient.MyDoctor:
-            consultation = self.add_consultation(doctor, patient, date, reason, fee)
+            consultation = self.create_consultation(doctor, patient, date, reason, fee)
             messagebox.showinfo("Success", f"✅  Consultation with Doctor {doctor} has been made to patient {patient} on {date}!")
         else:
             messagebox.showerror("Error", f"❗️ Please assign {doctor} to {patient} first!")
