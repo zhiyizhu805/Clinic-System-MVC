@@ -13,8 +13,6 @@ class Clinic:
         self.__filteredDoctors = []
         self.__filteredPatients = []
         
-        
-        
     @property
     def myDoctors(self):
         return self.__myDoctors
@@ -99,16 +97,11 @@ class MedicalCenterAppController:
     def __init__(self, master):
         self.view = MedicalCenterAppView(master)
         self.clinic = Clinic()
-        # Load data from files
-        with open("Data/Doctor.txt", "r") as file:
-            for line in file:
-                first_name, last_name, specialty = line.strip().split(",")
-                self.clinic.create_doctor(first_name, last_name, specialty)
-
-        with open("Data/Patient.txt", "r") as file:
-            for line in file:
-                first_name, last_name = line.strip().split(",")
-                self.clinic.create_patient(first_name, last_name)
+        # # Load data from files
+        self.load_doctors_from_file()
+        self.load_patients_from_file()
+        self.update_doctor_list()
+        self.update_patient_list()
 
         # Bind buttons to methods
         self.view.assign_btn.config(command=self.assign_doctor)
@@ -117,13 +110,28 @@ class MedicalCenterAppController:
         self.view.btn_show_patient_info.config(command=self.show_patient_info)
         self.view.btn_show_consultation_report.config(command=self.show_consultation_report)
 
-        self.update_doctor_list()
-        self.update_patient_list()
-
         # test case:
         # search doctor and patients
         print(self.clinic.searchDoctors('laura vivi'))
         print(self.clinic.searchPatients('Misha'))
+        
+    def load_doctors_from_file(self, filename="Data/Doctor.txt"):
+        try:
+            with open(filename, "r") as file:
+                for line in file:
+                    first_name, last_name, specialty = line.strip().split(",")
+                    self.clinic.create_doctor(first_name, last_name, specialty)
+        except FileNotFoundError:
+            tk.messagebox.showerror("Error", f"❗️ File '{filename}' not found!")
+            
+    def load_patients_from_file(self, filename="Data/Patient.txt"):
+        try:
+            with open(filename, "r") as file:
+                for line in file:
+                    first_name, last_name = line.strip().split(",")
+                    self.clinic.create_patient(first_name, last_name)
+        except FileNotFoundError:
+            tk.messagebox.showerror("Error", f"❗️ File '{filename}' not found!")
         
 
     def update_doctor_list(self):
