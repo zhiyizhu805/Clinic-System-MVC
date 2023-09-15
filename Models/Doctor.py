@@ -1,3 +1,6 @@
+# Name : Zhiyi Zhu
+# Student ID: 1152455
+
 class Doctor:
     # Static variable to keep track of the next available Doctor ID
     nextID = 1000

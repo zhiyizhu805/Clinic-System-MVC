@@ -1,3 +1,6 @@
+# Name : Zhiyi Zhu
+# Student ID: 1152455
+
 class Consultation:
     def __init__(self, doctor, patient, date, reason, fee):
         # Initializing the consultation with details of doctor, patient, date, reason, and fee

@@ -1,3 +1,6 @@
+# Name : Zhiyi Zhu
+# Student ID: 1152455
+
 import tkinter as tk
 from Controllers.medical_center_controller import MedicalCenterAppController
 
