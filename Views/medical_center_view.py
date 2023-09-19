@@ -9,20 +9,20 @@ import re
 class MedicalCenterAppView:
     def __init__(self, master):
         self.master = master
-        self.master.title("Medical Center Application")
+        self.master.title("🏥XYZ Medical Center")
 
         # Frame for doctors and patients listbox
         self.listbox_frame = tk.Frame(self.master, padx=10, pady=10)
         self.listbox_frame.pack(pady=20)
 
         # Patient Label and Listbox
-        self.patient_label = tk.Label(self.listbox_frame, text="All Patients")
+        self.patient_label = tk.Label(self.listbox_frame, text="🙍🏼‍♂️ All Patients")
         self.patient_label.grid(row=0, column=1, padx=10)
         self.patient_listbox = tk.Listbox(self.listbox_frame, width=40, height=10, exportselection=False)
         self.patient_listbox.grid(row=1, column=1, padx=10)
         
         # Doctor Label and Listbox
-        self.doctor_label = tk.Label(self.listbox_frame, text="All Doctors")
+        self.doctor_label = tk.Label(self.listbox_frame, text="👨🏼‍⚕️ All Doctors")
         self.doctor_label.grid(row=0, column=0, padx=10)
         self.doctor_listbox = tk.Listbox(self.listbox_frame, width=40, height=10, exportselection=False)
         self.doctor_listbox.grid(row=1, column=0, padx=10)
